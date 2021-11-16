@@ -2,14 +2,19 @@ package com.example.listin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listacontactos = new ArrayList<Contacto>();
-        listacontactos.add(new Contacto("Juan","659 40 18 67"));
-        listacontactos.add(new Contacto("Pedro","654 46 19 67"));
+        listacontactos.add(new Contacto("Juan","+34659401867"));
+        listacontactos.add(new Contacto("Pedro","+34654461967"));
         listacontactos.add(new Contacto("Alberto","657 46 18 67"));
         listacontactos.add(new Contacto("Edu","657 46 17 67"));
         listacontactos.add(new Contacto("Carlos","657 46 18 67"));
@@ -38,6 +43,18 @@ public class MainActivity extends AppCompatActivity {
         AdaptadorContactos adaptador = new AdaptadorContactos(this);
         ListView lv1 = findViewById(R.id.list1);
         lv1.setAdapter(adaptador);
+
+        lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String num = listacontactos.get(i).getNumero();
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("Tel: " + num));
+                startActivity(intent);
+                //Toast.makeText(MainActivity.this,listacontactos.get(i).getNumero(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+
 
     }
     class AdaptadorContactos extends ArrayAdapter<Contacto>{
