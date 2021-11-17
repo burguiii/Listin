@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listacontactos = new ArrayList<Contacto>();
-        listacontactos.add(new Contacto("Juan","+34659401867"));
-        listacontactos.add(new Contacto("Pedro","+34654461967"));
+        listacontactos.add(new Contacto("Juan","659 40 18 67"));
+        listacontactos.add(new Contacto("Pedro","654 46 19 67"));
         listacontactos.add(new Contacto("Alberto","657 46 18 67"));
         listacontactos.add(new Contacto("Edu","657 46 17 67"));
         listacontactos.add(new Contacto("Carlos","657 46 18 67"));
@@ -48,8 +48,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String num = listacontactos.get(i).getNumero();
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("Tel: " + num));
-                startActivity(intent);
+                try {
+                    Uri number = Uri.parse("tel: " + num);
+                    Intent dial = new Intent(Intent.ACTION_DIAL);
+                    dial.setData(number);
+                    startActivity(dial);
+                }catch (Exception e){
+                }
+
                 //Toast.makeText(MainActivity.this,listacontactos.get(i).getNumero(), Toast.LENGTH_LONG).show();
             }
         });
